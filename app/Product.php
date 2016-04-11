@@ -8,8 +8,6 @@ class Product extends Model
 {
     use \Devio\Eavquent\Eavquent;
 
-    // TODO: rewrite method getEntityAttributes to return not all attributes, but those associated with category product belongs to
-
     protected $fillable = [
         'category_id',
         'sku',

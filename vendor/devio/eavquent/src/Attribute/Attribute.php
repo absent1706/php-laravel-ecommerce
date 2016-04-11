@@ -95,4 +95,16 @@ class Attribute extends Model
                ? $this->hasMany('App\Eav\Attribute\Option')
                : null;
     }
+
+    public function getFilterHtml($filters)
+    {
+        $class = $this->getAttribute('model');
+        return $class::getFilterHtml($this, $filters);
+    }
+
+    public function filterQuery($query, $filters)
+    {
+        $class = $this->getAttribute('model');
+        return $class::filterQuery($query, $filters);
+    }
 }

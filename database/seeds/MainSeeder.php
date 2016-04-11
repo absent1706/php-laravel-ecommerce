@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use App\Product;
 use App\Category;
 
-use Devio\Eavquent\Value\Data\Integer;
+use App\Eav\Value\Data\Integer;
 use Devio\Eavquent\Attribute\Attribute;
 
 use App\Eav\Value\Data\Option;
