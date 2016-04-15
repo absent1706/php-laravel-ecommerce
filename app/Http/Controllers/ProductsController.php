@@ -7,12 +7,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Product;
-// use App\Category;
-
-use Devio\Eavquent\Value\Data\Varchar;
-use Devio\Eavquent\Attribute\Attribute;
-
-use App\Eav\Value\Data\Option;
 
 class ProductsController extends Controller
 {
