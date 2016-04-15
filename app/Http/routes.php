@@ -18,4 +18,15 @@
 
 Route::get('/', ['as' => 'categories.index', 'uses' => 'CategoriesController@index']);
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
-Route::resource('products', 'ProductsController', ['only' => ['show']]);
+Route::resource('products',   'ProductsController',   ['only' => ['show']]);
+
+// TODO: add middleware
+Route::group(['prefix' => 'admin'], function()
+{
+    Route::get('/products',           ['as' => 'admin.products.index',   'uses' => 'Admin\ProductsController@index']);
+    Route::get('/products/new',       ['as' => 'admin.products.create',  'uses' => 'Admin\ProductsController@create']);
+    Route::post('/products',          ['as' => 'admin.products.store',   'uses' => 'Admin\ProductsController@store']);
+    Route::get('/products/{id}/edit', ['as' => 'admin.products.edit',    'uses' => 'Admin\ProductsController@edit']);
+    Route::put('/products/{id}',      ['as' => 'admin.products.update',  'uses' => 'Admin\ProductsController@update']);
+    Route::delete('/products/{id}',   ['as' => 'admin.products.destroy', 'uses' => 'Admin\ProductsController@destroy']);
+});

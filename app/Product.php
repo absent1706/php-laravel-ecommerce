@@ -27,4 +27,9 @@ class Product extends Model
     {
         return $this->category()->first()->attributes();
     }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
 }
