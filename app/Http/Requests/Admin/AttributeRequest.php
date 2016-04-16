@@ -26,8 +26,8 @@ class AttributeRequest extends Request
         /* TODO: validate EAV attributes */
         return [
             // 'category_id'   => 'required|exists:categories,id',
-            'code'       => 'required|min:2|max:100',
-            'label'      => 'required|min:2|max:100',
+            'code'       => 'required',
+            'label'      => 'required',
             'collection' => 'boolean',
             'optionable' => 'boolean',
         ];

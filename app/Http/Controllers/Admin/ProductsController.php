@@ -43,7 +43,7 @@ class ProductsController extends Controller
         }
     }
 
-    public function store(Requests\ProductRequest $request)
+    public function store(Requests\Admin\ProductRequest $request)
     {
         $product = new Product($request->all());
 
@@ -67,7 +67,7 @@ class ProductsController extends Controller
     }
 
 
-    public function update(Requests\ProductRequest $request, $id)
+    public function update(Requests\Admin\ProductRequest $request, $id)
     {
         $product = Product::findOrFail($id);
         $product->fill($request->all());

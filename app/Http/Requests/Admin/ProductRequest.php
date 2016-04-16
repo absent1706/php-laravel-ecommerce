@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\Request;
 
@@ -26,8 +26,8 @@ class ProductRequest extends Request
         /* TODO: validate EAV attributes */
         return [
             'category_id'   => 'required|exists:categories,id',
-            'name'          => 'required|min:2|max:100',
-            'sku'           => 'required|min:2|max:100',
+            'name'          => 'required',
+            'sku'           => 'required',
             'price'         => 'required|numeric',
             'special_price' => 'numeric',
         ];
