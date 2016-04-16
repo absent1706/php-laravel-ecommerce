@@ -91,10 +91,11 @@ class Interactor
      * @param $key
      * @return null
      */
-    protected function getContent($key)
+    protected function getContent($key, $getDisplayContent = false)
     {
         $value = $this->getRawContent($key);
 
+        $content_method = $getDisplayContent ? 'getDisplayContent' : 'getContent';
         // In case we are accessing to a multivalued attribute, we will return
         // a collection with pairs of id and value content. Otherwise we'll
         // just return the single model value content as a plain result.
@@ -107,7 +108,7 @@ class Interactor
                     $hacked_collection = \Illuminate\Support\Collection::make([]);
 
                     foreach ($value->pluck('id') as $option_id) {
-                        $hacked_collection[] = $dataModel::find($option_id)->getContent();
+                        $hacked_collection[] = $dataModel::find($option_id)->$content_method();
                     }
                     return $hacked_collection;
                 }
@@ -120,7 +121,12 @@ class Interactor
             // return $value->pluck('content');
         }
 
-        return ! is_null($value) ? $value->getContent() : null;
+        return ! is_null($value) ? $value->$content_method() : null;
+    }
+
+    public function getDisplayContent($key)
+    {
+        return $this->getContent($key, true);
     }
 
     /**

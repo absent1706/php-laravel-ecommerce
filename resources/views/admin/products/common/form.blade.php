@@ -1,11 +1,4 @@
-<div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }}">
-    {!! Form::label('category_id','Category') !!}
-    {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
-
-    @if($errors->has('category_id'))
-        <p class="help-block">{{ $errors->first('category_id')}}</p>
-    @endif
-</div>
+{!! Form::hidden('category_id', $category->id) !!}
 
 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
     {!! Form::label('name','Name') !!}
@@ -27,7 +20,7 @@
 
 <div class="form-group {{ $errors->has('price') ? 'has-error' : '' }}">
     {!! Form::label('price','price') !!}
-    {!! Form::text('price',null,['class' => 'form-control']) !!}
+    {!! Form::number('price',null,['class' => 'form-control']) !!}
 
     @if($errors->has('price'))
         <p class="help-block">{{ $errors->first('price')}}</p>
@@ -36,7 +29,7 @@
 
 <div class="form-group {{ $errors->has('special_price') ? 'has-error' : '' }}">
     {!! Form::label('special_price','special_price') !!}
-    {!! Form::text('special_price',null,['class' => 'form-control']) !!}
+    {!! Form::number('special_price',null,['class' => 'form-control']) !!}
 
     @if($errors->has('special_price'))
         <p class="help-block">{{ $errors->first('special_price')}}</p>
@@ -50,3 +43,17 @@
         <p class="help-block">{{ $errors->first('description')}}</p>
     @endif
 </div>
+
+<hr>
+
+@foreach ($category->attributes as $attribute)
+    <p>
+        <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
+            {!! Form::label($attribute->code,$attribute->label) !!}
+            {!! $attribute->getInputHtml(isset($product) ? $product->{$attribute->code} : null) !!}
+            @if($errors->has('description'))
+                <p class="help-block">{{ $errors->first('description')}}</p>
+            @endif
+        </div>
+    </p>
+@endforeach

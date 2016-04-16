@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use App\Product;
 use App\Category;
@@ -22,14 +23,33 @@ class ProductsController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
-    public function create()
+    public function create_select_category()
     {
-        return view('admin.products.create', ['categories' => Category::lists('name', 'id')]);
+        return view('admin.products.create.select_category', ['categories' => Category::lists('name', 'id')]);
+    }
+
+    public function create(Request $request)
+    {
+        return view('admin.products.create', ['category' => Category::findOrFail($request['category_id'])]);
+    }
+
+    protected function setEavAttributes($product, $request)
+    {
+        $category_attributes = Category::findOrFail($request['category_id'])->attributes_prepared();
+        foreach ($request->all() as $attribute_code => $value) {
+            if (isset($category_attributes[$attribute_code])) {
+                $product->{$attribute_code} = $value;
+            }
+        }
     }
 
     public function store(Requests\ProductRequest $request)
     {
-        Product::create($request->all());
+        $product = new Product($request->all());
+
+        $this->setEavAttributes($product, $request);
+
+        $product->save();
 
         return redirect(route('admin.products.index'))->with([
             'message' => 'Product has been created successfully!'
@@ -43,14 +63,18 @@ class ProductsController extends Controller
         // eager load product attributes
         $product->with('eav');
 
-        return view('admin.products.edit', compact('product'));
+        return view('admin.products.edit', ['product' => $product, 'category' => $product->category]);
     }
 
 
     public function update(Requests\ProductRequest $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->all());
+        $product->fill($request->all());
+
+        $this->setEavAttributes($product, $request);
+
+        $product->save();
 
         return redirect(route('admin.products.index'))->with([
             'message' => 'Product has been updated successfully!'

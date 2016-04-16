@@ -107,4 +107,10 @@ class Attribute extends Model
         $class = $this->getAttribute('model');
         return $class::filterQuery($query, $filters);
     }
+
+    public function getInputHtml($content)
+    {
+        $class = $this->getAttribute('model');
+        return $class::getInputHtml($this, $content);
+    }
 }

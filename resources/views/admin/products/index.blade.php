@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="clearfix">
-    <a class="pull-right btn btn-success" href="{{ route('admin.products.create')}}"> + New product </a>
+    <a class="pull-right btn btn-success" href="{{ route('admin.products.create.select_category')}}"> + New product </a>
 </div>
 @foreach ($products as $product)
     <div class="clearfix">
@@ -14,7 +14,7 @@
                 Edit
             </a>
                 {!! Form::open(['route' => ['admin.products.destroy', $product->id], 'method' => 'DELETE', 'style' => 'display:inline-block']) !!}
-                <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 {!! Form::close() !!}
             </form>
 

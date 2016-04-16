@@ -23,7 +23,9 @@ class ProductRequest extends Request
      */
     public function rules()
     {
+        /* TODO: validate EAV attributes */
         return [
+            'category_id'   => 'required|exists:categories,id',
             'name'          => 'required|min:2|max:100',
             'sku'           => 'required|min:2|max:100',
             'price'         => 'required|numeric',

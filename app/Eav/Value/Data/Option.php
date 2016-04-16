@@ -5,21 +5,14 @@ use Devio\Eavquent\Value\Value;
 
 use App\Eav\Attribute\Option as AttributeOption;
 
+use Collective\Html\FormFacade as Form;
+
 class Option extends Value
 {
-    public function setContent($content)
+    public function getDisplayContent()
     {
-        return $this->setAttribute('content', $content);
-    }
-
-    /**
-     * Get the content.
-     *
-     * @return mixed
-     */
-    public function getContent()
-    {
-        return $this->belongsTo(AttributeOption::class, 'content')->first();
+        // TODO: add this standard behaviour to abstract Value class
+        return $this->belongsTo(AttributeOption::class, 'content')->first()->label;
     }
 
     public static function getFilterHtml($attribute, $filters = [])
@@ -45,5 +38,19 @@ class Option extends Value
     {
         $query->whereIn('content', $filters);
         return $query;
+    }
+
+    public static function getInputHtml($attribute, $content)
+    {
+        $options = ['class' => 'form-control'];
+        $input_name = $attribute->code;
+        if ($attribute->isCollection()) {
+            $options['multiple'] = true;
+            $input_name .= '[]';
+            if ($content) {
+                $content = $content->all();
+            }
+        }
+        return Form::select($input_name, $attribute->options()->lists('label', 'id'), $content, $options);
     }
 }

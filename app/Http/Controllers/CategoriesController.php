@@ -43,13 +43,8 @@ class CategoriesController extends Controller
     protected function _getCategoryProductsQuery($category, $filters) {
         $productQuery = $category->products();
 
-        // some preparation: form array [<code> => <entity>]) of all category-related attributes
-        $category_attributes = [];
-        foreach ($category->attributes as $attribute) {
-            $category_attributes[$attribute->code] = $attribute;
-        }
-
         // loop all filters
+        $category_attributes = $category->attributes_prepared();
         foreach ($filters as $attribute_code => $filters) {
             // if filter code is valid attribute code
             if (isset($category_attributes[$attribute_code])) {

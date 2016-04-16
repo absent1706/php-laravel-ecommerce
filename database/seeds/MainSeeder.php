@@ -65,7 +65,7 @@ class MainSeeder extends Seeder
                 'model'         => Option::class,
                 'entity'        => Product::class,
                 'default_value' => null,
-                'collection'    => false
+                'collection'    => false,
             ]);
 
             $labels = [
@@ -88,7 +88,7 @@ class MainSeeder extends Seeder
                 'model'         => Option::class,
                 'entity'        => Product::class,
                 'default_value' => null,
-                'collection'    => true
+                'collection'    => true,
             ]);
 
             $labels = [
@@ -134,9 +134,9 @@ class MainSeeder extends Seeder
             ];
             $accumulator1->save();
             $this->assertEqual($accumulator1->capacity, 1200);
-            $this->assertEqual($accumulator1->manufacturer->label, 'Sparko');
-            $this->assertEqual($accumulator1->compatible_cars[0]->label, 'BMW X5');
-            $this->assertEqual($accumulator1->compatible_cars[1]->label, 'Toyota Corolla');
+            $this->assertEqual($accumulator1->getDisplayContent('manufacturer'), 'Sparko');
+            $this->assertEqual($accumulator1->getDisplayContent('compatible_cars')[0], 'BMW X5');
+            $this->assertEqual($accumulator1->getDisplayContent('compatible_cars')[1], 'Toyota Corolla');
 
 
             $accumulator2 = new Product([
@@ -156,9 +156,9 @@ class MainSeeder extends Seeder
 
             $accumulator2->save();
             $this->assertEqual($accumulator2->capacity, 2200);
-            $this->assertEqual($accumulator2->manufacturer->label, 'Bosch');
-            $this->assertEqual($accumulator2->compatible_cars[0]->label, 'Toyota Corolla');
-            $this->assertEqual($accumulator2->compatible_cars[1]->label, 'Wolkswagen Passat');
+            $this->assertEqual($accumulator2->getDisplayContent('manufacturer'), 'Bosch');
+            $this->assertEqual($accumulator2->getDisplayContent('compatible_cars')[0], 'Toyota Corolla');
+            $this->assertEqual($accumulator2->getDisplayContent('compatible_cars')[1], 'Wolkswagen Passat');
 
 
 
@@ -178,9 +178,9 @@ class MainSeeder extends Seeder
             ];
             $engine1->save();
             $this->assertEqual($engine1->cylinder_count, 4);
-            $this->assertEqual($engine1->manufacturer->label, 'Sparko');
-            $this->assertEqual($engine1->compatible_cars[0]->label, 'Wolkswagen Passat');
-            $this->assertEqual($engine1->compatible_cars[1]->label, 'Mazda Z5');
+            $this->assertEqual($engine1->getDisplayContent('manufacturer'), 'Sparko');
+            $this->assertEqual($engine1->getDisplayContent('compatible_cars')[0], 'Wolkswagen Passat');
+            $this->assertEqual($engine1->getDisplayContent('compatible_cars')[1], 'Mazda Z5');
 
 
             $engine2 = new Product([
@@ -200,8 +200,8 @@ class MainSeeder extends Seeder
 
             $engine2->save();
             $this->assertEqual($engine2->cylinder_count, 6);
-            $this->assertEqual($engine2->manufacturer->label, 'Boge');
-            $this->assertEqual($engine2->compatible_cars[0]->label, 'Mazda Z5');
-            $this->assertEqual($engine2->compatible_cars[1]->label, 'Nissan Kashkai');
+            $this->assertEqual($engine2->getDisplayContent('manufacturer'), 'Boge');
+            $this->assertEqual($engine2->getDisplayContent('compatible_cars')[0], 'Mazda Z5');
+            $this->assertEqual($engine2->getDisplayContent('compatible_cars')[1], 'Nissan Kashkai');
     }
 }

@@ -427,4 +427,12 @@ trait Eavquent
 
         return parent::__call($method, $parameters);
     }
+
+    public function getDisplayContent($key)
+    {
+        $interactor = $this->getInteractor();
+
+        return $interactor->isAttribute($key) ?
+            $interactor->getDisplayContent($key) : null;
+    }
 }

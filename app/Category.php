@@ -20,4 +20,15 @@ class Category extends Model
     {
         return $this->belongsToMany('\Devio\Eavquent\Attribute\Attribute', 'category_attribute');
     }
+
+    public function attributes_prepared()
+    {
+        // form array [<code> => <entity>]) of all category-related attributes
+        $result = [];
+        foreach ($this->attributes()->get() as $attribute) {
+            $result[$attribute->code] = $attribute;
+        }
+        return $result;
+    }
+
 }

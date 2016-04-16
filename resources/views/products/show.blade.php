@@ -25,23 +25,12 @@
         <p>
             <b>{{ $attribute->label }}</b>:
 
-            <!-- If it's a special option attribute, display in a special way -->
-            <!-- TODO: remove model class hardcode -->
-            @if ($attribute->model == 'App\Eav\Value\Data\Option')
-                <!-- If it's a multiselect, -->
-                @if ($attribute->collection)
-                    @foreach ($product->{$attribute->code} as $option)
-                        {{ $option->label }},
-                    @endforeach
-                @else
-                    {{ $product->{$attribute->code}->label }}
-                @endif
+            @if ($attribute->isCollection())
+                @foreach ($product->getDisplayContent($attribute->code) as $value)
+                    {{ $value }},
+                @endforeach
             @else
-                <!-- Otherwise just display value -->
-                <!-- TODO: display different types differently (especially date)
-                           maybe, option model (varchar/int/datetime) will decide how to display value
-                -->
-                {{ $product->{$attribute->code} }}
+                {{ $product->getDisplayContent($attribute->code) }}
             @endif
         </p>
     @endforeach

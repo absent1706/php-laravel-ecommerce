@@ -2,6 +2,8 @@
 
 namespace App\Eav\Value\Data;
 
+use Collective\Html\FormFacade as Form;
+
 class Integer extends \Devio\Eavquent\Value\Data\Integer
 {
 
@@ -44,5 +46,17 @@ class Integer extends \Devio\Eavquent\Value\Data\Integer
         }
 
         return $query;
+    }
+
+    public static function getInputHtml($attribute, $content)
+    {
+        // TODO: display multiple input fields (with KnockoutJS) for collection attributes
+        return Form::number($attribute->code, null, ['class' => 'form-control']);
+    }
+
+    public function getDisplayContent()
+    {
+        // TODO: add this standard behaviour to abstract Value class
+        return $this->getContent();
     }
 }
