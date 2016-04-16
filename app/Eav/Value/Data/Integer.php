@@ -51,7 +51,7 @@ class Integer extends \Devio\Eavquent\Value\Data\Integer
     public static function getInputHtml($attribute, $content)
     {
         // TODO: display multiple input fields (with KnockoutJS) for collection attributes
-        return Form::number($attribute->code, null, ['class' => 'form-control']);
+        return Form::number($attribute->code, $content, ['class' => 'form-control']);
     }
 
     public function getDisplayContent()

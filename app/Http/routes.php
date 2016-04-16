@@ -30,4 +30,12 @@ Route::group(['prefix' => 'admin'], function()
     Route::get('/products/{id}/edit',           ['as' => 'admin.products.edit',                   'uses' => 'Admin\ProductsController@edit']);
     Route::put('/products/{id}',                ['as' => 'admin.products.update',                 'uses' => 'Admin\ProductsController@update']);
     Route::delete('/products/{id}',             ['as' => 'admin.products.destroy',                'uses' => 'Admin\ProductsController@destroy']);
+
+    Route::get('/attributes',           ['as' => 'admin.attributes.index',   'uses' => 'Admin\AttributesController@index']);
+    Route::get('/attributes/new',       ['as' => 'admin.attributes.create',  'uses' => 'Admin\AttributesController@create']);
+    Route::post('/attributes',          ['as' => 'admin.attributes.store',   'uses' => 'Admin\AttributesController@store']);
+    Route::get('/attributes/{id}/edit', ['as' => 'admin.attributes.edit',    'uses' => 'Admin\AttributesController@edit']);
+    Route::put('/attributes/{id}',      ['as' => 'admin.attributes.update',  'uses' => 'Admin\AttributesController@update']);
+    Route::delete('/attributes/{id}',   ['as' => 'admin.attributes.destroy', 'uses' => 'Admin\AttributesController@destroy']);
+
 });

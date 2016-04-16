@@ -5,6 +5,8 @@ namespace Devio\Eavquent\Attribute;
 use Devio\Eavquent\Events\AttributeWasSaved;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Eav\Attribute\Option as AttributeOption;
+
 class Attribute extends Model
 {
     /**
@@ -21,6 +23,7 @@ class Attribute extends Model
      */
     protected $fillable = [
         'code', 'label', 'model', 'entity', 'default_value', 'collection',
+        'optionable'
     ];
 
     /**
@@ -88,11 +91,21 @@ class Attribute extends Model
     }
 
     /* TODO: remove this code from vendor dir */
+    public function categories()
+    {
+        return $this->belongsToMany('App\Category', 'category_attribute');
+    }
+
     // !!! options method should NOT be called for attributes with model != '...\Option' !!!
+    public function isOptionable()
+    {
+        return (bool) $this->getAttribute('optionable');
+    }
+
     public function options()
     {
-        return ($this->model == 'App\Eav\Value\Data\Option')
-               ? $this->hasMany('App\Eav\Attribute\Option')
+        return ($this->isOptionable())
+               ? $this->hasMany(AttributeOption::class)
                : null;
     }
 
@@ -108,7 +121,7 @@ class Attribute extends Model
         return $class::filterQuery($query, $filters);
     }
 
-    public function getInputHtml($content)
+    public function getInputHtml($content = null)
     {
         $class = $this->getAttribute('model');
         return $class::getInputHtml($this, $content);

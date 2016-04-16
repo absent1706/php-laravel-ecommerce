@@ -42,15 +42,18 @@ class Option extends Value
 
     public static function getInputHtml($attribute, $content)
     {
-        $options = ['class' => 'form-control'];
+        $input_options = ['class' => 'form-control'];
+        $values = $attribute->options()->lists('label', 'id')->all();
+        $selected = $content;
         $input_name = $attribute->code;
+
         if ($attribute->isCollection()) {
-            $options['multiple'] = true;
+            $input_options['multiple'] = true;
             $input_name .= '[]';
-            if ($content) {
-                $content = $content->all();
+            if ($content instanceof \Illuminate\Support\Collection) {
+                $selected = $content->all();
             }
         }
-        return Form::select($input_name, $attribute->options()->lists('label', 'id'), $content, $options);
+        return Form::select($input_name, $values, $selected, $input_options);
     }
 }

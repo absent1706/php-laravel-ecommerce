@@ -66,6 +66,7 @@ class MainSeeder extends Seeder
                 'entity'        => Product::class,
                 'default_value' => null,
                 'collection'    => false,
+                'optionable'    => true
             ]);
 
             $labels = [
@@ -89,6 +90,7 @@ class MainSeeder extends Seeder
                 'entity'        => Product::class,
                 'default_value' => null,
                 'collection'    => true,
+                'optionable'    => true
             ]);
 
             $labels = [
