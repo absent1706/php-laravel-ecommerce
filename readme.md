@@ -29,9 +29,14 @@ php artisan vendor:publish --provider="Devio\Eavquent\EavquentServiceProvider"
 ### Step 4
 ```shell
 php artisan migrate
-php artisan db:seed --class=MainSeeder
+php artisan db:seed
 ```
 If you have problems with migrations, create DB from dump.sql (file in project folder).
+
+If you want comletely refresh DB, type
+```shell
+mysqladmin -uroot drop laravel-ecommerce && mysqladmin -uroot create laravel-ecommerce && php artisan migrate && php artisan db:seed
+```
 
 ### Step 5
 ```shell
