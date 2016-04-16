@@ -2,7 +2,7 @@
 
 use Devio\Eavquent\Migration;
 
-class CreateEavValuesOptionTable extends Migration
+class CreateEavValuesSelectTable extends Migration
 {
     /**
      * The table name.
@@ -11,7 +11,7 @@ class CreateEavValuesOptionTable extends Migration
      */
     protected function tableName()
     {
-        return 'option';
+        return 'select';
     }
 
     /**

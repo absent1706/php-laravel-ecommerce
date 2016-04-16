@@ -97,16 +97,18 @@ class Attribute extends Model
     }
 
     // !!! options method should NOT be called for attributes with model != '...\Option' !!!
-    public function isOptionable()
+    public function isSelectable()
     {
-        return (bool) $this->getAttribute('optionable');
+        $class = $this->getAttribute('model');
+        return $class::$isSelectable;
     }
 
     public function options()
     {
-        return ($this->isOptionable())
-               ? $this->hasMany(AttributeOption::class)
-               : null;
+        if (!$this->isSelectable()) {
+            throw new Exception('Cannot get options of {$this->code} because this attribute is not selectable');
+        }
+        return $this->hasMany(AttributeOption::class);
     }
 
     public function getFilterHtml($filters)

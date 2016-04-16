@@ -8,7 +8,8 @@ use App\Category;
 use App\Eav\Value\Data\Integer;
 use Devio\Eavquent\Attribute\Attribute;
 
-use App\Eav\Value\Data\Option;
+use App\Eav\Value\Data\Select;
+use App\Eav\Value\Data\Multiselect;
 use App\Eav\Attribute\Option as AttributeOption;
 
 class MainSeeder extends Seeder
@@ -34,7 +35,8 @@ class MainSeeder extends Seeder
 
         /* Attributes */
             Attribute::getQuery()->delete();
-            Option::getQuery()->delete();
+            Select::getQuery()->delete();
+            Multiselect::getQuery()->delete();
             Integer::getQuery()->delete();
             AttributeOption::getQuery()->delete();
 
@@ -44,8 +46,6 @@ class MainSeeder extends Seeder
                 'label'         => 'Capacity, amper*hours',
                 'model'         => Integer::class,
                 'entity'        => Product::class,
-                'default_value' => null,
-                'collection'    => false
             ]);
 
             // integer attribute for 'Engines' category
@@ -54,19 +54,14 @@ class MainSeeder extends Seeder
                 'label'         => 'Cylinders count',
                 'model'         => Integer::class,
                 'entity'        => Product::class,
-                'default_value' => null,
-                'collection'    => false
             ]);
 
             // select attribute
             $manufacturerAttribute = Attribute::create([
                 'code'          => 'manufacturer',
                 'label'         => 'Manufacturer',
-                'model'         => Option::class,
+                'model'         => Select::class,
                 'entity'        => Product::class,
-                'default_value' => null,
-                'collection'    => false,
-                'optionable'    => true
             ]);
 
             $labels = [
@@ -86,11 +81,9 @@ class MainSeeder extends Seeder
             $carsAttribute = Attribute::create([
                 'code'          => 'compatible_cars',
                 'label'         => 'Compatible with cars',
-                'model'         => Option::class,
+                'model'         => Multiselect::class,
                 'entity'        => Product::class,
-                'default_value' => null,
-                'collection'    => true,
-                'optionable'    => true
+                'collection'    => true //!!! IMPORTANT
             ]);
 
             $labels = [
@@ -139,7 +132,6 @@ class MainSeeder extends Seeder
             $this->assertEqual($accumulator1->getDisplayContent('manufacturer'), 'Sparko');
             $this->assertEqual($accumulator1->getDisplayContent('compatible_cars')[0], 'BMW X5');
             $this->assertEqual($accumulator1->getDisplayContent('compatible_cars')[1], 'Toyota Corolla');
-
 
             $accumulator2 = new Product([
                 'category_id'            => $category_accumulators->id,

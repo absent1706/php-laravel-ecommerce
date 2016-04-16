@@ -101,20 +101,13 @@ class Interactor
         // just return the single model value content as a plain result.
         if ($this->getAttribute($key)->isCollection()) {
             /* hack begin*/
-                $collection = $value->pluck('content');
                 $dataModel = $this->getAttribute($key)->model;
 
-                if (($dataModel == 'App\Eav\Value\Data\Option') && !$collection->isEmpty()) {
-                    $hacked_collection = \Illuminate\Support\Collection::make([]);
-
-                    foreach ($value->pluck('id') as $option_id) {
-                        $hacked_collection[] = $dataModel::find($option_id)->$content_method();
-                    }
-                    return $hacked_collection;
+                $collection = \Illuminate\Support\Collection::make([]);
+                foreach ($value->pluck('id') as $option_id) {
+                    $collection[] = $dataModel::find($option_id)->$content_method();
                 }
-                else {
-                    return $collection;
-                }
+                return $collection;
             /* hack end */
 
             // original code

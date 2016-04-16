@@ -4,9 +4,8 @@ namespace App\Eav\Value\Data;
 
 use Collective\Html\FormFacade as Form;
 
-class Integer extends \Devio\Eavquent\Value\Data\Integer
+class Integer extends AbstractValue
 {
-
     protected static function prepareFilters($filters)
     {
         $from = isset($filters['from']) ? $filters['from'] : null;
@@ -15,7 +14,7 @@ class Integer extends \Devio\Eavquent\Value\Data\Integer
         return [$from, $to];
     }
 
-    public static function getFilterHtml($attribute, $filters)
+    public static function getFilterHtml($attribute, $filters = [])
     {
         list($from, $to) = self::prepareFilters($filters);
 
@@ -52,11 +51,5 @@ class Integer extends \Devio\Eavquent\Value\Data\Integer
     {
         // TODO: display multiple input fields (with KnockoutJS) for collection attributes
         return Form::number($attribute->code, $content, ['class' => 'form-control']);
-    }
-
-    public function getDisplayContent()
-    {
-        // TODO: add this standard behaviour to abstract Value class
-        return $this->getContent();
     }
 }

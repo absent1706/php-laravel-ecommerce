@@ -1,14 +1,19 @@
 <?php
 namespace App\Eav\Value\Data;
 
-use Devio\Eavquent\Value\Value;
-
 use App\Eav\Attribute\Option as AttributeOption;
 
 use Collective\Html\FormFacade as Form;
 
-class Option extends Value
+abstract class AbstractSelect extends AbstractValue
 {
+    public static $isSelectable = true;
+
+    protected function getAttributeTableName()
+    {
+        return eav_value_table('select');
+    }
+
     public function getDisplayContent()
     {
         // TODO: add this standard behaviour to abstract Value class
@@ -38,22 +43,5 @@ class Option extends Value
     {
         $query->whereIn('content', $filters);
         return $query;
-    }
-
-    public static function getInputHtml($attribute, $content)
-    {
-        $input_options = ['class' => 'form-control'];
-        $values = $attribute->options()->lists('label', 'id')->all();
-        $selected = $content;
-        $input_name = $attribute->code;
-
-        if ($attribute->isCollection()) {
-            $input_options['multiple'] = true;
-            $input_name .= '[]';
-            if ($content instanceof \Illuminate\Support\Collection) {
-                $selected = $content->all();
-            }
-        }
-        return Form::select($input_name, $values, $selected, $input_options);
     }
 }
