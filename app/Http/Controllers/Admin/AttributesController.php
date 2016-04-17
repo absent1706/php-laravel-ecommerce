@@ -39,9 +39,12 @@ class AttributesController extends Controller
     {
         $attribute = new Attribute($request->all());
         $attribute->entity = Product::class;
-        $attribute->categories()->attach($request->get('category_ids',[]));
         $attribute->save();
+        $attribute->categories()->sync($request->get('category_ids',[]));
 
+        /* !!! After creating/deleting attributes something can brake because EAV module keeps all EAV attributes in cache
+         *     TODO: if it will brake often, refresh this cache after creation (Devio\Eavquent\Attribute\Manager->refresh())
+         */
         return redirect(route('admin.attributes.index'))->with([
             'message' => 'Attribute has been created successfully!'
         ]);

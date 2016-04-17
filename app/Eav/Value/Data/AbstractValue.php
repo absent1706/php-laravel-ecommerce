@@ -17,6 +17,11 @@ abstract class AbstractValue extends Value
         return Form::text($attribute->code, $filters, ['class' => 'form-control']);
     }
 
+    public static function willApplyFilterQuery($filters)
+    {
+        return true;
+    }
+
     public static function filterQuery($query, $filter)
     {
         $query->where('content', $filter);

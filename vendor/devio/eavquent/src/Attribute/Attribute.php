@@ -123,6 +123,12 @@ class Attribute extends Model
         return $class::getFilterHtml($this, $filters);
     }
 
+    public function willApplyFilterQuery($filters)
+    {
+        $class = $this->getAttribute('model');
+        return $class::willApplyFilterQuery($filters);
+    }
+
     public function filterQuery($query, $filters)
     {
         $class = $this->getAttribute('model');
