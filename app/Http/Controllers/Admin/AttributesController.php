@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Devio\Eavquent\Attribute\Attribute;
 use App\Category;
 
+use Config;
+
 class AttributesController extends Controller
 {
     /**
@@ -25,13 +27,13 @@ class AttributesController extends Controller
 
     public function create(Request $request)
     {
-        return view('admin.attributes.create', ['category' => Category::findOrFail($request['category_id'])]);
+        $avaliable_models = Attribute::getAvaliableEavModels();
+        return view('admin.attributes.create', compact('avaliable_models'));
     }
 
     public function store(Requests\Admin\AttributeRequest $request)
     {
         $attribute = new Attribute($request->all());
-
         $attribute->save();
 
         return redirect(route('admin.attributes.index'))->with([
@@ -42,7 +44,8 @@ class AttributesController extends Controller
     public function edit($id)
     {
         $attribute = Attribute::findOrFail($id);
-        return view('admin.attributes.edit', compact('attribute'));
+        $avaliable_models = Attribute::getAvaliableEavModels();
+        return view('admin.attributes.edit', compact('attribute','avaliable_models'));
     }
 
 

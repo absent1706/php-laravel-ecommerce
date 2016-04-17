@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Eav\Attribute\Option as AttributeOption;
 
+use Config;
+
 class Attribute extends Model
 {
     /**
@@ -23,7 +25,6 @@ class Attribute extends Model
      */
     protected $fillable = [
         'code', 'label', 'model', 'entity', 'default_value', 'collection',
-        'optionable'
     ];
 
     /**
@@ -127,5 +128,10 @@ class Attribute extends Model
     {
         $class = $this->getAttribute('model');
         return $class::getInputHtml($this, $content);
+    }
+
+    public static function getAvaliableEavModels()
+    {
+        return Config::get('eavquent.avaliable_eav_models');
     }
 }

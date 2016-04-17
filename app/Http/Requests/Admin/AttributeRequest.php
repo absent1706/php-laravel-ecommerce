@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\Request;
+use Devio\Eavquent\Attribute\Attribute;
 
 class AttributeRequest extends Request
 {
@@ -23,13 +24,13 @@ class AttributeRequest extends Request
      */
     public function rules()
     {
+
         /* TODO: validate EAV attributes */
         return [
             // 'category_id'   => 'required|exists:categories,id',
-            'code'       => 'required',
-            'label'      => 'required',
-            'collection' => 'boolean',
-            'optionable' => 'boolean',
+            'code'  => 'required|alpha_dash',
+            'label' => 'required',
+            'model' => 'required|in:'.join(',',Attribute::getAvaliableEavModels())
         ];
     }
 }

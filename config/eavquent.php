@@ -18,4 +18,10 @@ return [
     |--------------------------------------------------------------------------
     */
     'cache_key' => 'eav',
+
+    'avaliable_eav_models' => [
+        'Integer'     => 'App\Eav\Value\Data\Integer',
+        'Dropdown'    => 'App\Eav\Value\Data\Select',
+        'Multiselect' => 'App\Eav\Value\Data\Multiselect',
+    ],
 ];
