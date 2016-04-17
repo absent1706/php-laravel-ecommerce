@@ -6,6 +6,7 @@ use Devio\Eavquent\Value\Value;
 abstract class AbstractValue extends Value
 {
     public static $isSelectable = false;
+    public static $isCollectionable = false;
 
     public function getDisplayContent()
     {

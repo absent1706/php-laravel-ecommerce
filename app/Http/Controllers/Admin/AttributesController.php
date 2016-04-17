@@ -39,6 +39,11 @@ class AttributesController extends Controller
     {
         $attribute = new Attribute($request->all());
         $attribute->entity = Product::class;
+
+        $class = $attribute->model;
+        if ($class::$isCollectionable) {
+            $attribute->collection = true;
+        }
         $attribute->save();
         $attribute->categories()->sync($request->get('category_ids',[]));
 

@@ -6,6 +6,8 @@ use Collective\Html\FormFacade as Form;
 
 class Multiselect extends AbstractSelect
 {
+    public static $isCollectionable = true;
+
     public static function getInputHtml($attribute, $content)
     {
         $input_options = ['class' => 'form-control', 'multiple' => true];
