@@ -37,7 +37,7 @@ class Integer extends AbstractValue
     public static function willApplyFilterQuery($filters)
     {
         list($from, $to) = self::prepareFilters($filters);
-        return (!empty($from) && !empty($to));
+        return (!empty($from) || !empty($to));
     }
 
     public static function filterQuery($query, $filters)

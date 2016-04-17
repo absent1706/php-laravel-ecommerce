@@ -49,6 +49,7 @@ class AttributesController extends Controller
 
         /* !!! After creating/deleting attributes something can brake because EAV module keeps all EAV attributes in cache
          *     TODO: if it will brake often, refresh this cache after creation (Devio\Eavquent\Attribute\Manager->refresh())
+         *     for now, if you have problems, type 'php artisan cache:clear' or restart server
          */
         return redirect(route('admin.attributes.index'))->with([
             'message' => 'Attribute has been created successfully!'
