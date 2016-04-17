@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Http\Requests\Request;
 use Devio\Eavquent\Attribute\Attribute;
 
-class AttributeRequest extends Request
+class AttributeUpdateRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,7 @@ class AttributeRequest extends Request
         return [
             // 'category_id'   => 'required|exists:categories,id',
             'code'  => 'required|alpha_dash',
-            'label' => 'required',
-            'model' => 'required|in:'.join(',',Attribute::getAvaliableEavModels())
+            'label' => 'required'
         ];
     }
 }

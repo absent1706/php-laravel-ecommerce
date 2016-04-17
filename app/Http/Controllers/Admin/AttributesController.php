@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use Devio\Eavquent\Attribute\Attribute;
 use App\Category;
+use App\Product;
 
 use Config;
 
@@ -29,12 +30,16 @@ class AttributesController extends Controller
     public function create(Request $request)
     {
         $avaliable_models = Attribute::getAvaliableEavModels();
-        return view('admin.attributes.create', compact('avaliable_models'));
+        $all_categories = Category::lists('name', 'id');
+
+        return view('admin.attributes.create', compact('avaliable_models', 'all_categories'));
     }
 
-    public function store(Requests\Admin\AttributeRequest $request)
+    public function store(Requests\Admin\AttributeCreateRequest $request)
     {
         $attribute = new Attribute($request->all());
+        $attribute->entity = Product::class;
+        $attribute->categories()->attach($request->get('category_ids',[]));
         $attribute->save();
 
         return redirect(route('admin.attributes.index'))->with([
@@ -46,14 +51,18 @@ class AttributesController extends Controller
     {
         $attribute = Attribute::findOrFail($id);
         $avaliable_models = Attribute::getAvaliableEavModels();
-        return view('admin.attributes.edit', compact('attribute','avaliable_models'));
+        $all_categories = Category::lists('name', 'id');
+
+        return view('admin.attributes.edit', compact('attribute','avaliable_models', 'all_categories'));
     }
 
 
-    public function update(Requests\Admin\AttributeRequest $request, $id)
+    public function update(Requests\Admin\AttributeUpdateRequest $request, $id)
     {
         $attribute = Attribute::findOrFail($id);
-        $attribute->fill($request->only('label', 'code', 'collection', 'optionable'));
+        $attribute->fill($request->except('model'));
+        // TODO: add ability to edit attributes order in category (on CategoryController)
+        $attribute->categories()->sync($request->get('category_ids',[]));
         $attribute->save();
 
         return redirect(route('admin.attributes.index'))->with([

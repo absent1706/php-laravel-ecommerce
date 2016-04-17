@@ -97,6 +97,11 @@ class Attribute extends Model
         return $this->belongsToMany('App\Category', 'category_attribute');
     }
 
+    public function category_ids()
+    {
+        return $this->categories->lists('id')->all();
+    }
+
     // !!! options method should NOT be called for attributes with model != '...\Option' !!!
     public function isSelectable()
     {
