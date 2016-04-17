@@ -22,7 +22,8 @@ class AttributesController extends Controller
     public function index()
     {
         $attributes = Attribute::all();
-        return view('admin.attributes.index', compact('attributes'));
+        $avaliable_models = Attribute::getAvaliableEavModels();
+        return view('admin.attributes.index', compact('attributes', 'avaliable_models'));
     }
 
     public function create(Request $request)

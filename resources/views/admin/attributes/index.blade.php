@@ -9,6 +9,8 @@
     <div class="clearfix">
         <h3><a href="{{ route('admin.attributes.edit', $attribute->id)}}"> {{ $attribute->code }}</a></h3>
         Label: {{ $attribute->label }}
+        <br>
+        Type: {{ array_flip($avaliable_models)[$attribute->model] }}
         <div class="pull-right">
             <a class="btn btn-default" href="{{ route('admin.attributes.edit', $attribute->id)}}">
                 Edit
