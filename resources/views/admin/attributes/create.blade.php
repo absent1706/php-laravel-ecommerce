@@ -14,6 +14,8 @@
 
         @include('admin.attributes.common.form')
 
+        <!-- TODO: add possibility to add options just when creating attribute -->
+
         <button type="submit" class="btn btn-primary btn-lg">Create attribute</button>
     {!! Form::close() !!}
 @stop

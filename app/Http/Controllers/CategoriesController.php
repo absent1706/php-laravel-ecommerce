@@ -33,7 +33,6 @@ class CategoriesController extends Controller
     {
         $category = Category::findOrFail($id);
         $filters = $request->all();
-
         $products = $this->_getCategoryProductsQuery($category, $filters)->get();
         /* TODO: sort products after filtering */
 

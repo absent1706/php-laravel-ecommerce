@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Devio\Eavquent\Attribute\Attribute;
+use App\Eav\Attribute\Option as AttributeOption;
 use App\Category;
 use App\Product;
 
@@ -39,13 +40,14 @@ class AttributesController extends Controller
     {
         $attribute = new Attribute($request->all());
         $attribute->entity = Product::class;
-
         $class = $attribute->model;
         if ($class::$isCollectionable) {
             $attribute->collection = true;
         }
         $attribute->save();
         $attribute->categories()->sync($request->get('category_ids',[]));
+
+        // TODO: add possibility to add options just when creating attribute
 
         /* !!! After creating/deleting attributes something can brake because EAV module keeps all EAV attributes in cache
          *     TODO: if it will brake often, refresh this cache after creation (Devio\Eavquent\Attribute\Manager->refresh())
@@ -72,7 +74,25 @@ class AttributesController extends Controller
         $attribute->fill($request->except('model'));
         // TODO: add ability to edit attributes order in category (on CategoryController)
         $attribute->categories()->sync($request->get('category_ids',[]));
+
         $attribute->save();
+        if ($attribute->isSelectable()) {
+            // update existing options
+            $existingOptions = $request->get('options',[]);
+            foreach ($existingOptions as $id => $label) {
+                $attribute->options()->where('id', $id)->update(['label' => $label]);
+            }
+
+            // delete removed options
+            /* TODO NEXT: add foreign keys to eav_values_select so attribute values will be deleted from products after options deleting */
+            $attribute->options()->whereNotIn('id', array_keys($existingOptions))->delete();
+
+            // add new options
+            foreach ($request->get('new_options',[]) as $label) {
+                $attribute->options()->save(new AttributeOption(['label' => $label]));
+            }
+        }
+
 
         return redirect(route('admin.attributes.index'))->with([
             'message' => 'Attribute has been updated successfully!'
